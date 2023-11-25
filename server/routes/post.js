@@ -5,10 +5,8 @@ const authenticateUser = require('../middleware/auth');
 const router = express.Router()
 
 router.post('/create', authenticateUser, async (req, res) => {
-  const data = new Post({
-    title: req.body.title,
-    about: req.body.about
-  })
+  const { title, about, imageUrl } = req.body;
+  const data = new Post({ title, about, imageUrl })
 
   try {
     const post = await data.save();
@@ -27,6 +25,22 @@ router.get('/all', async (_, res) => {
   } catch (error) {
     console.error('Error getting posts:', error);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
+
+router.get('/:postId', authenticateUser, async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 })
 

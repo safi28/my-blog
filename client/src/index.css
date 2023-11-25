@@ -1,5 +1,7 @@
 body {
   font-family: 'Lato', sans-serif;
+  background: linear-gradient(to right, #ffffff, #3498db);
+  background-size: 200% 100%;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
