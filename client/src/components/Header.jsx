@@ -1,18 +1,18 @@
-import * as React from 'react';
-import { useNavigate, redirect } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, Tooltip, MenuItem, Avatar } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth } from '../context/AuthContext';
 
 const pages = ['Login', 'Register', 'Create Post', 'Posts', 'Users'];
-const settings = ['Profile', 'Logout'];
+const settings = ['Logout'];
 
 const Header = () => {
     const navigate = useNavigate();
-    const { logout } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
 
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -29,9 +29,10 @@ const Header = () => {
 
     const handleCloseUserMenu = (setting) => {
         if (setting === 'Logout') {
-            localStorage.clear()
-            navigate('/login')
+            localStorage.setItem(process.env.REACT_APP_AUTH_CONTEXT, false);
+            localStorage.removeItem(process.env.REACT_APP_TOKEN_NAME);
             logout()
+            navigate('/login')
         }
         setAnchorElUser(null);
     };
@@ -125,11 +126,11 @@ const Header = () => {
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
+                        {isAuthenticated && <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt="Remy Sharp" src="https://cdn-icons-png.flaticon.com/512/4305/4305692.png" />
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip>}
                         <Menu
                             sx={{ mt: '45px' }}
                             id="menu-appbar"

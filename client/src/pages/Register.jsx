@@ -8,16 +8,18 @@ const Register = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
   const signUp = async (e) => {
     e.preventDefault();
-    await authenticateUser(email, password).then((res) => {
+    await authenticateUser({ name, email, password }).then(() => {
+      setErrorMessage('')
       navigate('/login')
     }).catch((e) => {
-      setErrorMessage(e)
+      setErrorMessage(e.message)
     })
   }
 
@@ -32,6 +34,17 @@ const Register = () => {
               Register Form
             </Typography>
             <TextField
+              label="Name"
+              onChange={e => setName(e.target.value)}
+              required
+              variant="outlined"
+              color="secondary"
+              type="text"
+              sx={{ mb: 3 }}
+              fullWidth
+              value={name}
+            />
+            <TextField
               label="Email"
               onChange={e => setEmail(e.target.value)}
               required
@@ -42,6 +55,7 @@ const Register = () => {
               fullWidth
               value={email}
               error={errorMessage}
+              helperText={errorMessage}
             />
             <TextField
               label="Password"
@@ -52,6 +66,7 @@ const Register = () => {
               type="password"
               value={password}
               error={errorMessage}
+              helperText={errorMessage}
               fullWidth
               sx={{ mb: 3 }}
             />

@@ -15,7 +15,7 @@ const authReducer = (state, action) => {
 };
 
 const initialState = {
-    isAuthenticated: localStorage.getItem(process.env.REACT_APP_AUTH_CONTEXT) !== null,
+    isAuthenticated: localStorage.getItem(process.env.REACT_APP_AUTH_CONTEXT) === 'true',
   };
 
 const AuthContext = createContext();
@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem(process.env.REACT_APP_AUTH_CONTEXT, state.isAuthenticated);
-    console.log(state.isAuthenticated, 'my state');
   }, [state.isAuthenticated]);
 
   const login = () => dispatch({ type: LOGIN });

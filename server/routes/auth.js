@@ -13,13 +13,13 @@ const generateToken = (data) => {
 
 router.post('/register', async (req, res) => {
     try {
-        const { email, password } = req.body;
-        const user = new User({ email, password });
+        const { name, email, password } = req.body;
+        const user = new User({ name, email, password });
         await user.save();
         res.json({ status: 200 });
     } catch (error) {
         console.error('Error registering user:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: error._message });
     }
 });
 

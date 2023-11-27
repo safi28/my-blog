@@ -29,9 +29,11 @@ const UsersList = () => {
                     <Grid item xs={6} key={index}>
                         <Paper sx={{ p: 2 }} spacing={2}>
                             <Typography variant="subtitle1" gutterBottom>
-                                E-mail:
+                                Name: {user.name}
                             </Typography>
-                            {user.email}
+                            <Typography variant="subtitle1" gutterBottom>
+                                E-mail: {user.email}
+                            </Typography>
                         </Paper>
                     </Grid>
                 ))}
